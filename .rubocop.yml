@@ -11,6 +11,7 @@ AllCops:
     - 'config/puma.rb'
     - 'config/application.rb'
     - 'db/seeds.rb'
+    - 'app/channels/*/*'
 
 # Lint
 
@@ -29,7 +30,7 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/features/*/*'
+    - 'spec/features/*'
     - 'spec/helpers/*'
     - 'spec/models/*'
     - 'spec/services/*'
