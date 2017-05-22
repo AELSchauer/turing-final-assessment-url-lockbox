@@ -2,8 +2,6 @@ require 'rails_helper'
 
 feature 'User can view their links', type: :feature, js: true do
   let(:user) { create(:user) }
-  let(:owned_links) { create_list(:link, 3, user: user) }
-  let(:unowned_links) { create_list(:link, 3) }
 
   before(:each) do
     visit login_path
@@ -18,11 +16,13 @@ feature 'User can view their links', type: :feature, js: true do
   end
 
   it 'on the links index page' do
-    expect(current_path).to eq(root_path)
-    wait_for_ajax
-    p page.html
+    owned_links = create_list(:link, 3, user: user)
+    unowned_links = create_list(:link, 3)
+
+    visit root_path
+
     owned_links.each do |link|
-      within("#link-box-#{link.id}") do
+      within("#link-#{link.id}") do
         expect(page).to have_content(link.title)
         expect(page).to have_content(link.url)
         expect(page).to have_content('Read?: false')

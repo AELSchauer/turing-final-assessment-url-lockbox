@@ -1,1 +1,13 @@
 <%= link_to 'Logout', logout_path, method: :delete %>
+
+<%= form_for :link do |f| %>
+  <%= f.label :url %>
+  <%= f.text_field :url %>
+  <br>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <br>
+  <%= f.submit "Add Link" %>
+<% end %>
+
+<div id="links-inbox"></div>
