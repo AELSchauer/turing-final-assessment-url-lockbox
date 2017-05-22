@@ -17,12 +17,12 @@ gem 'puma', '~> 3.0'
 gem 'rails', '~> 5.0.2'
 gem 'rails_12factor', group: :production
 gem 'sass-rails', '>= 3.2'
+gem 'selenium-webdriver', '~> 2.53.4'
 gem 'uglifier', '>= 1.3.0'
 
 group :test do
   gem 'database_cleaner'
   gem 'simplecov'
-  gem 'vcr'
   gem 'webmock'
 end
 

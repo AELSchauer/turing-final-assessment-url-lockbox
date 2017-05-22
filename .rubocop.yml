@@ -1,17 +1,18 @@
 AllCops:
   Exclude:
-    - 'db/schema.rb'
-    - 'spec/factories/*'
+    - 'app/channels/*/*'
+    - 'config/application.rb'
+    - 'config/environments/*'
     - 'config/initializers/*'
+    - 'config/puma.rb'
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
     - 'Gemfile'
     - 'Gemfile.lock'
+    - 'spec/factories/*'
     - 'spec/rails_helper.rb'
     - 'spec/spec_helper.rb'
-    - 'config/environments/*'
-    - 'config/puma.rb'
-    - 'config/application.rb'
-    - 'db/seeds.rb'
-    - 'app/channels/*/*'
+    - 'spec/support/*'
 
 # Lint
 
@@ -31,6 +32,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - 'spec/features/*'
+    - 'spec/requests/**/**/*'
     - 'spec/helpers/*'
     - 'spec/models/*'
     - 'spec/services/*'

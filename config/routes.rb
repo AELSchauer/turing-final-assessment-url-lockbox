@@ -6,4 +6,10 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get    '/signup', to: 'users#new'
   post   '/signup', to: 'users#create'
+
+  namespace :api do
+    namespace :v1 do
+      resources :links, only: [:index, :create]
+    end
+  end
 end
