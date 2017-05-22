@@ -23,12 +23,17 @@ feature 'User can view their links', type: :feature, js: true do
 
     owned_links.each do |link|
       within("#link-#{link.id}") do
-        expect(page).to have_content(link.title)
-        expect(page).to have_content(link.url)
+        expect(page).to have_content("Title: #{link.title}")
+        expect(page).to have_content("URL: #{link.url}")
         expect(page).to have_content('Read?: false')
         # expect(page).to have a button to mark as unread
         # expect(page).to have a button to mark as read
       end
+    end
+
+    unowned_links.each do |link|
+      expect(page).to_not have_content(link.title)
+      expect(page).to_not have_content(link.url)
     end
   end
 end

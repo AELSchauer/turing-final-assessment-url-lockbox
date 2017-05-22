@@ -1,9 +1,7 @@
 FactoryGirl.define do
   factory :link do
-    robot = Faker::Avatar.image.split("?")[0]
-
-    title robot.split("/")[3].split(".")[0]
-    url   robot
+    sequence(:title) { |n| "Robot #{n}" }
+    sequence(:url) { |n| "https://robohash.org/robot-#{n}.png" }
     read  false
     user
   end

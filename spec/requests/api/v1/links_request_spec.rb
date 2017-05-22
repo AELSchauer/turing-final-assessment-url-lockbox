@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Links API", type: :request do
+describe 'Links API', type: :request do
   describe 'for an authenticated user' do
     let(:user) { create(:user) }
 
@@ -12,11 +12,11 @@ describe "Links API", type: :request do
       delete logout_path
     end
 
-    it "returns a list of links" do
-      owned_links = create_list(:link, 3, user: user)
-      unowned_links = create_list(:link, 3)
+    it 'returns a list of links' do
+      create_list(:link, 3, user: user)
+      create_list(:link, 3)
 
-      get "/api/v1/links"
+      get '/api/v1/links'
 
       expect(response).to be_success
 
@@ -28,14 +28,14 @@ describe "Links API", type: :request do
   end
 
   describe 'for an unauthenticated user' do
-    it 'returns an empty array' do
-      get "/api/v1/links"
+    it 'returns an 404' do
+      get '/api/v1/links'
 
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(401)
 
       body = JSON.parse(response.body)
 
-      expect(body['error']).to eq('Unauthenticated user')
+      expect(body['error']).to eq('Unauthorized request')
     end
   end
 end
