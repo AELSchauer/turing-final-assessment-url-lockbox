@@ -1,0 +1,91 @@
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+    - 'spec/factories/*'
+    - 'config/initializers/*'
+    - 'Gemfile'
+    - 'Gemfile.lock'
+    - 'spec/rails_helper.rb'
+    - 'spec/spec_helper.rb'
+    - 'config/environments/*'
+    - 'config/puma.rb'
+    - 'config/application.rb'
+    - 'db/seeds.rb'
+
+# Lint
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/features/*/*'
+    - 'spec/helpers/*'
+    - 'spec/models/*'
+    - 'spec/services/*'
+    - 'spec/workers/*'
+
+# Metrics
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/features/*/*'
+    - 'spec/helpers/*'
+    - 'spec/models/*'
+    - 'spec/services/*'
+    - 'spec/workers/*'
+
+Metrics/LineLength:
+  Max: 100
+  Exclude:
+    - 'spec/features/*/*'
+    - 'spec/helpers/*'
+    - 'spec/models/*'
+    - 'spec/services/*'
+    - 'spec/workers/*'
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 20
+  Exclude:
+    - 'spec/features/*/*'
+    - 'spec/helpers/*'
+    - 'spec/models/*'
+    - 'spec/services/*'
+    - 'spec/workers/*'
+
+
+# Style
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/ExtraSpacing:
+  Enabled: true
+
+Style/GlobalVars:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: single_quotes
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/VariableNumber:
+  EnforcedStyle: snake_case
