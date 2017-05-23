@@ -58,7 +58,7 @@ function postLink() {
 }
 
 function markLinkReadOrUnread(linkBox) {
-  var id = parseInt(linkBox.attr('id').split('-')[1])
+  var id = linkBox.attr('id').split('-')[1]
   var read = (linkBox.find('.link-read').text() == 'true')
   var linkData = {
     link: {
@@ -67,14 +67,14 @@ function markLinkReadOrUnread(linkBox) {
   }
 
   $.ajax({
-    url: `/api/v1/links/${id}`,
+    url: '/api/v1/links/' + id,
     method: "PUT",
     data: linkData,
     success: function(result) {
       var link = new Link(result)
-      $(`#link-${link.id}`).replaceWith(link.htmlTemplate())
+      $('#link-' + link.id).replaceWith(link.htmlTemplate())
       if(link.read) {
-        $(`#link-${link.id}`).addClass('unread')
+        $('#link-' + link.id).addClass('unread')
       }
     }
   })
@@ -114,11 +114,11 @@ Link.prototype.buttonRead = function() {
 }
 
 Link.prototype.htmlTemplate = function() {
-  return `<div class='link' id='link-${this.id}'>
-    <p>Title: <span class='link-title'>${this.title}</span></p>
-    <p>URL: <span class='link-url'>${this.url}</span></p>
-    <p>Read?: <span class='link-read'>${this.read}</span></p>
-    <button class='mark'>${this.buttonRead()}</button>
-    <a href='/links/${this.id}/edit' class='edit'><button>Edit</button></a>
-  </div>`
+  return "<div class='link' id='link-" + this.id + "'>" +
+    "<p>Title: <span class='link-title'>" + this.title + "</span></p>" +
+    "<p>URL: <span class='link-url'>" + this.url + "</span></p>" +
+    "<p>Read?: <span class='link-read'>" + this.read + "</span></p>" +
+    "<button class='mark'>" + this.buttonRead() + "</button>" +
+    "<a href='/links/" + this.id + "/edit' class='edit'><button>Edit</button></a>" +
+  "</div>"
 }
