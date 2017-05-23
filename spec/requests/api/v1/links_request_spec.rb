@@ -25,11 +25,85 @@ describe 'Links API', type: :request do
       expect(links.count).to eq(3)
       expect(Link.count).to eq(6)
     end
+
+    it 'returns a link for a post request' do
+      link = build(:link)
+
+      post '/api/v1/links/', params: { link: { title: link.title, url: link.url } }
+
+      body = JSON.parse(response.body)
+
+      expect(body['title']).to eq(link.title)
+      expect(body['url']).to eq(link.url)
+    end
+
+    it 'returns a link for a put request' do
+      existing_link = create(:link, user: user)
+      link = build(:link)
+
+      params = { params: { link: { title: link.title, url: link.url } } }
+
+      put "/api/v1/links/#{existing_link.id}", params
+
+      body = JSON.parse(response.body)
+
+      expect(body['title']).to eq(link.title)
+      expect(body['url']).to eq(link.url)
+    end
+
+    it 'returns a 401 for an bad post request' do
+      post '/api/v1/links', params: { link: { title: '', url: 'google.com' } }
+
+      expect(response.status).to eq(400)
+
+      body = JSON.parse(response.body)
+
+      expect(body['error'].count).to eq(2)
+    end
+
+    it 'returns a 401 for a bad put request' do
+      existing_link = create(:link, user: user)
+
+      put "/api/v1/links/#{existing_link.id}", params: { link: { title: '', url: 'google.com' } }
+
+      expect(response.status).to eq(400)
+
+      body = JSON.parse(response.body)
+
+      expect(body['error'].count).to eq(2)
+    end
   end
 
   describe 'for an unauthenticated user' do
-    it 'returns an 404' do
+    it 'returns a 401 for a get request' do
       get '/api/v1/links'
+
+      expect(response.status).to eq(401)
+
+      body = JSON.parse(response.body)
+
+      expect(body['error']).to eq('Unauthorized request')
+    end
+
+    it 'returns a 401 for an unauthorized post request' do
+      link = build(:link)
+
+      post '/api/v1/links', params: { link: { title: link.title, url: link.url } }
+
+      expect(response.status).to eq(401)
+
+      body = JSON.parse(response.body)
+
+      expect(body['error']).to eq('Unauthorized request')
+    end
+
+    it 'returns a 401 for an unauthorized put request' do
+      existing_link = create(:link)
+      link = build(:link)
+
+      params = { params: { link: { title: link.title, url: link.url } } }
+
+      put "/api/v1/links/#{existing_link.id}", params
 
       expect(response.status).to eq(401)
 

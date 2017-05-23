@@ -1,6 +1,7 @@
 $(document).ready(function() {
   populateLinksInbox()
   bindSubmitNewLink()
+  bindMarkReadOrUnread()
 })
 
 function bindSubmitNewLink() {
@@ -12,6 +13,13 @@ function bindSubmitNewLink() {
 
 function populateLinksInbox() {
   getAllLinks()
+}
+
+function bindMarkReadOrUnread() {
+  $('#links-inbox').on('click', '.mark', function(){
+    var linkBox = $(this).parent()
+    markLinkReadOrUnread(linkBox)
+  })
 }
 
 function getAllLinks() {
@@ -29,8 +37,8 @@ function getAllLinks() {
 function postLink() {
   var linkData = {
     link: {
-      title: $("#link_title").val(),
-      url: $("#link_url").val()
+      title: $("#form-title").val(),
+      url: $("#form-url").val()
     }
   }
 
@@ -49,10 +57,32 @@ function postLink() {
   })
 }
 
+function markLinkReadOrUnread(linkBox) {
+  var id = parseInt(linkBox.attr('id').split('-')[1])
+  var read = (linkBox.find('.link-read').text() == 'true')
+  var linkData = {
+    link: {
+      read: !read
+    }
+  }
+
+  $.ajax({
+    url: `/api/v1/links/${id}`,
+    method: "PUT",
+    data: linkData,
+    success: function(result) {
+      var link = new Link(result)
+      $(`#link-${link.id}`).replaceWith(link.htmlTemplate())
+      if(link.read) {
+        $(`#link-${link.id}`).addClass('unread')
+      }
+    }
+  })
+}
+
 function resetLinkForm(){
-  console.log($('#form-errors ul'))
-  $('#link_title').val("")
-  $('#link_url').val("")
+  $('#form-title').val("")
+  $('#form-url').val("")
   $('#form-errors ul').empty()
 }
 
@@ -75,8 +105,8 @@ function Link(params) {
   this.read = params['read']
 }
 
-Link.prototype.markAsReadOrUnread = function() {
-  if(self.read) {
+Link.prototype.buttonRead = function() {
+  if(this.read) {
     return 'Mark As Unread'
   } else {
     return 'Mark As Read'
@@ -85,8 +115,10 @@ Link.prototype.markAsReadOrUnread = function() {
 
 Link.prototype.htmlTemplate = function() {
   return `<div class='link' id='link-${this.id}'>
-    <p>Title: ${this.title}</p>
-    <p>URL: ${this.url}</p>
-    <p>Read?: ${this.read}</p>
+    <p>Title: <span class='link-title'>${this.title}</span></p>
+    <p>URL: <span class='link-url'>${this.url}</span></p>
+    <p>Read?: <span class='link-read'>${this.read}</span></p>
+    <button class='mark'>${this.buttonRead()}</button>
+    <a href='/links/${this.id}/edit' class='edit'><button>Edit</button></a>
   </div>`
 }

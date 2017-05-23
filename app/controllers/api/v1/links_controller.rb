@@ -20,9 +20,22 @@ class Api::V1::LinksController < ApplicationController
     end
   end
 
+  def update
+    if current_user
+      @link = current_user.links.find(params[:id])
+      if @link.update(link_params)
+        render json: @link
+      else
+        render json: { error: @link.errors.full_messages }, status: :bad_request
+      end
+    else
+      render json: { error: 'Unauthorized request' }, status: :unauthorized
+    end
+  end
+
   private
 
   def link_params
-    params.require(:link).permit(:title, :url)
+    params.require(:link).permit(:title, :url, :read)
   end
 end
