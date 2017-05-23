@@ -41,7 +41,9 @@ describe 'Links API', type: :request do
       existing_link = create(:link, user: user)
       link = build(:link)
 
-      put "/api/v1/links/#{existing_link.id}", params: { link: { title: link.title, url: link.url } }
+      params = { params: { link: { title: link.title, url: link.url } } }
+
+      put "/api/v1/links/#{existing_link.id}", params
 
       body = JSON.parse(response.body)
 
@@ -61,7 +63,6 @@ describe 'Links API', type: :request do
 
     it 'returns a 401 for a bad put request' do
       existing_link = create(:link, user: user)
-      link = build(:link)
 
       put "/api/v1/links/#{existing_link.id}", params: { link: { title: '', url: 'google.com' } }
 
@@ -100,7 +101,9 @@ describe 'Links API', type: :request do
       existing_link = create(:link)
       link = build(:link)
 
-      put "/api/v1/links/#{existing_link.id}", params: { link: { title: link.title, url: link.url } }
+      params = { params: { link: { title: link.title, url: link.url } } }
+
+      put "/api/v1/links/#{existing_link.id}", params
 
       expect(response.status).to eq(401)
 
