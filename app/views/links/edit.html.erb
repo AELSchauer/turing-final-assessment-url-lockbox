@@ -1,0 +1,18 @@
+<h1>Edit</h1>
+
+<%= form_for @link do |f| %>
+  <div id='form-errors'>
+    <ul>
+      <% @link.errors.full_messages.each do |error_message| %>
+        <li><%= error_message %>.</li>
+      <% end %>
+    </ul>
+  </div>
+  <%= f.label :url %>
+  <%= f.text_field :url %>
+  <br>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <br>
+  <%= f.submit 'Edit Link' %>
+<% end %>
