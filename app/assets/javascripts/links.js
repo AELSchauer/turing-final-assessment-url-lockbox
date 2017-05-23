@@ -30,6 +30,9 @@ function getAllLinks() {
   .done(function(links_json) {
     getLinks(links_json).forEach(function(link) {
       $('#links-inbox').append(link.htmlTemplate())
+      if(link.read) {
+        $('#link-' + link.id).addClass('unread')
+      }
     })
   })
 }
