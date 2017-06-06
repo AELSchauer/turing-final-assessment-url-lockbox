@@ -5,3 +5,4 @@ test:
   HOT_READS_URL: 'http://localhost:3001'
 
 production:
+  HOT_READS_URL: 'https://fierce-beach-38151.herokuapp.com/'
