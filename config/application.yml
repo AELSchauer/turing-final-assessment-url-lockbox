@@ -1,0 +1,7 @@
+development:
+  HOT_READS_URL: 'http://localhost:3001'
+
+test:
+  HOT_READS_URL: 'http://localhost:3001'
+
+production:
