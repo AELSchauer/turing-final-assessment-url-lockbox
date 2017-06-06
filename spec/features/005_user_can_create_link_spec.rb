@@ -27,9 +27,27 @@ feature 'User can create a link', type: :feature, js: true do
       expect(page).to have_content("Title: #{link.title}")
       expect(page).to have_content("URL: #{link.url}")
       expect(page).to have_content('Read?: false')
-      # expect(page).to have a button to mark as unread
-      # expect(page).to have a button to mark as read
+      expect(page).to have_button('Mark As Read')
+      expect(page).to have_button('Edit')
     end
+  end
+
+  it 'immediately after creating a first link' do
+    link_1 = build(:link)
+    link_2 = build(:link)
+
+    visit root_path
+
+    fill_in 'link[url]', with: link_1.url
+    fill_in 'link[title]', with: link_1.title
+    click_on 'Add Link'
+
+
+    fill_in 'link[url]', with: link_2.url
+    fill_in 'link[title]', with: link_2.title
+    click_on 'Add Link'
+
+    expect(page).to have_selector('.link', count: 2)
   end
 
   context 'errors' do

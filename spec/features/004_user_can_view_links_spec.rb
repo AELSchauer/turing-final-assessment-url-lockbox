@@ -26,8 +26,8 @@ feature 'User can view their links', type: :feature, js: true do
         expect(page).to have_content("Title: #{link.title}")
         expect(page).to have_content("URL: #{link.url}")
         expect(page).to have_content('Read?: false')
-        # expect(page).to have a button to mark as unread
-        # expect(page).to have a button to mark as read
+        expect(page).to have_button('Mark As Read')
+        expect(page).to have_button('Edit')
       end
     end
 
