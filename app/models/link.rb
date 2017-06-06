@@ -25,14 +25,5 @@ class Link < ApplicationRecord
       "#{ENV['HOT_READS_URL']}/api/v1/read_urls",
       query: query
     )
-    if response['url']
-      true
-    else
-      if response['error'] == ["User HotRead already recorded"]
-        true
-      else
-        false
-      end
-    end
   end
 end
