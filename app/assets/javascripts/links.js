@@ -29,8 +29,9 @@ function getAllLinks() {
   })
   .done(function(links_json) {
     getLinks(links_json).forEach(function(link) {
+
       $('#links-inbox').append(link.htmlTemplate())
-      if(link.read) {
+      if(!link.read) {
         $('#link-' + link.id).addClass('unread')
       }
     })
@@ -76,7 +77,7 @@ function markLinkReadOrUnread(linkBox) {
     success: function(result) {
       var link = new Link(result)
       $('#link-' + link.id).replaceWith(link.htmlTemplate())
-      if(link.read) {
+      if(!link.read) {
         $('#link-' + link.id).addClass('unread')
       }
     }
@@ -106,6 +107,7 @@ function Link(params) {
   this.title = params['title']
   this.url = params['url']
   this.read = params['read']
+  this.hot = params['hot']
 }
 
 Link.prototype.buttonRead = function() {
@@ -116,8 +118,19 @@ Link.prototype.buttonRead = function() {
   }
 }
 
+Link.prototype.hotRead = function() {
+  if(this.hot == 'top') {
+    return "<p><span class='link-top'>TOP LINK</span></p>"
+  }else if(this.hot == 'hot') {
+    return "<p><span class='link-hot'>HOT LINK</span></p>"
+  }else{
+    return ""
+  }
+}
+
 Link.prototype.htmlTemplate = function() {
   return "<div class='link' id='link-" + this.id + "'>" +
+    this.hotRead() +
     "<p>Title: <span class='link-title'>" + this.title + "</span></p>" +
     "<p>URL: <span class='link-url'>" + this.url + "</span></p>" +
     "<p>Read?: <span class='link-read'>" + this.read + "</span></p>" +
