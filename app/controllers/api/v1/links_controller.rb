@@ -1,4 +1,6 @@
 class Api::V1::LinksController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def index
     if current_user
       render json: current_user.links
@@ -23,7 +25,7 @@ class Api::V1::LinksController < ApplicationController
   def update
     if current_user
       @link = current_user.links.find(params[:id])
-      if @link.update(link_params)
+      if @link.update(link_params) && @link.send_to_hot_read
         render json: @link
       else
         render json: { error: @link.errors.full_messages }, status: :bad_request

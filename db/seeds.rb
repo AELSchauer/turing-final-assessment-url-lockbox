@@ -1,7 +1,8 @@
-User.create(email: 'a@a.com', password: 'p', password_confirmation: 'p')
-User.create(email: 'b@b.com', password: 'p', password_confirmation: 'p')
-User.create(email: 'c@c.com', password: 'p', password_confirmation: 'p')
-User.create(email: 'd@d.com', password: 'p', password_confirmation: 'p')
+26.times do |l|
+  x = (l + 97).chr
+  User.create(email: "#{x}@#{x}.com", password: x, password_confirmation: x)
+end
+
 
 User.all.each do |user|
   rand(1..5).times do

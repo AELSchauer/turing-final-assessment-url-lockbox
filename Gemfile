@@ -7,10 +7,12 @@ end
 
 ruby '2.3.4'
 
+gem 'active_model_serializers'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'bootswatch-rails'
 gem 'coffee-rails', '~> 4.2'
+gem 'figaro'
 gem 'httparty'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
