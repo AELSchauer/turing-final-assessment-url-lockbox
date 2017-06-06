@@ -19,9 +19,9 @@ class Link < ApplicationRecord
   end
 
   def send_to_hot_read
-    query = { url:  { address: url } }
-    query.merge!({ read: { user_id: user.id } }) if read
-    response = HTTParty.post(
+    query = { url: { address: url } }
+    query[:read] = { user_id: user.id } if read
+    HTTParty.post(
       "#{ENV['HOT_READS_URL']}/api/v1/read_urls",
       query: query
     )

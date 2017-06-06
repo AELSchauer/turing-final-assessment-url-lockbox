@@ -42,7 +42,6 @@ feature 'User can create a link', type: :feature, js: true do
     fill_in 'link[title]', with: link_1.title
     click_on 'Add Link'
 
-
     fill_in 'link[url]', with: link_2.url
     fill_in 'link[title]', with: link_2.title
     click_on 'Add Link'
