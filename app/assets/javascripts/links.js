@@ -1,18 +1,58 @@
 $(document).ready(function() {
-  populateLinksInbox()
+  getAllLinksFromAJAX()
   bindSubmitNewLink()
   bindMarkReadOrUnread()
+  filterLinksByText()
+  filterLinksByReadOrUnread()
 })
+
+function filterLinksByText() {
+  $('#filter-links').keyup(function() {
+    var links = createLinksFromPage()
+    var filter = $(this).val()
+    links.each(function() {
+      this.filterByText(filter)
+    })
+  })
+}
+
+function filterLinksByReadOrUnread() {
+  $('.filter-button').click(function() {
+    var links = createLinksFromPage()
+    var readButton = $(this).attr('id') == 'links-read-true'
+    links.each(function() {
+      this.filterByReadButton(readButton)
+    })
+  })
+}
+
+function createLinksFromPage() {
+  return $('.link').map(function() {
+    return new Link({
+      title: $(this).find('.link-title').text(),
+      url: $(this).find('.link-url').text(),
+      read: $(this).find('.link-read').text() == 'true',
+      id: parseInt($(this).attr('id').replace('link-', '')),
+      hot: linkRankFromPage(this)
+    })
+  })
+}
+
+function linkRankFromPage(link) {
+  if($(link).find('.link-top').length == 0) {
+    return "top"
+  } else if($(link).find('.link-hot').length == 0) {
+    return "hot"
+  } else {
+    return ""
+  }
+}
 
 function bindSubmitNewLink() {
   $('#new-link-submit').click(function(event) {
     event.preventDefault()
     postLink()
   })
-}
-
-function populateLinksInbox() {
-  getAllLinks()
 }
 
 function bindMarkReadOrUnread() {
@@ -22,18 +62,14 @@ function bindMarkReadOrUnread() {
   })
 }
 
-function getAllLinks() {
+function getAllLinksFromAJAX() {
   $.ajax({
     url: "/api/v1/links",
     method: "GET"
   })
   .done(function(links_json) {
-    getLinks(links_json).forEach(function(link) {
-
-      $('#links-inbox').append(link.htmlTemplate())
-      if(!link.read) {
-        $('#link-' + link.id).addClass('unread')
-      }
+    getLinksFromJSON(links_json).forEach(function(link) {
+      link.addToPage()
     })
   })
 }
@@ -53,7 +89,7 @@ function postLink() {
     data: linkData,
     success: function(result) {
       var link = new Link(result)
-      $('#links-inbox').append(link.htmlTemplate())
+      link.addToPage()
     },
     error: function(result) {
       displayFormErrors(result.responseJSON)
@@ -76,10 +112,7 @@ function markLinkReadOrUnread(linkBox) {
     data: linkData,
     success: function(result) {
       var link = new Link(result)
-      $('#link-' + link.id).replaceWith(link.htmlTemplate())
-      if(!link.read) {
-        $('#link-' + link.id).addClass('unread')
-      }
+      link.appendLinkOnPage()
     }
   })
 }
@@ -90,7 +123,7 @@ function resetLinkForm(){
   $('#form-errors ul').empty()
 }
 
-function getLinks(links_json) {
+function getLinksFromJSON(links_json) {
   return links_json.map(function(link_json) {
     return new Link(link_json)
   })
@@ -137,4 +170,34 @@ Link.prototype.htmlTemplate = function() {
     "<button class='mark'>" + this.buttonRead() + "</button>" +
     "<a href='/links/" + this.id + "/edit' class='edit'><button>Edit</button></a>" +
   "</div>"
+}
+
+Link.prototype.filterByText = function(filter) {
+  if(this.title.toLowerCase().indexOf(filter) == -1 && this.url.toLowerCase().indexOf(filter) == -1) {
+    $(`#link-${this.id}`).hide()
+  } else {
+    $(`#link-${this.id}`).show()
+  }
+}
+
+Link.prototype.filterByReadButton = function(filter) {
+  if(this.read == filter) {
+    $(`#link-${this.id}`).show()
+  } else {
+    $(`#link-${this.id}`).hide()
+  }
+}
+
+Link.prototype.addToPage = function() {
+  $('#links-inbox').append(this.htmlTemplate())
+  if(!this.read) {
+    $('#link-' + this.id).addClass('unread')
+  }
+}
+
+Link.prototype.appendLinkOnPage = function() {
+  $('#link-' + this.id).replaceWith(this.htmlTemplate())
+  if(!this.read) {
+    $('#link-' + this.id).addClass('unread')
+  }
 }
