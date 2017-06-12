@@ -2,7 +2,24 @@ $(document).ready(function() {
   populateLinksInbox()
   bindSubmitNewLink()
   bindMarkReadOrUnread()
+  filterLinksByText()
 })
+
+function filterLinksByText() {
+  $('#filter-links').keyup(function() {
+    var filter = $(this).val()
+    $('.link').each(function() {
+      var title = $(this).find('.link-title').text().toLowerCase()
+      var url = $(this).find('.link-url').text().toLowerCase()
+      console.log(title, url)
+      if (title.indexOf(filter) == -1 && url.indexOf(filter) == -1) {
+        $(this).hide()
+      } else {
+        $(this).show()
+      }
+    })
+  })
+}
 
 function bindSubmitNewLink() {
   $('#new-link-submit').click(function(event) {
@@ -29,7 +46,6 @@ function getAllLinks() {
   })
   .done(function(links_json) {
     getLinks(links_json).forEach(function(link) {
-
       $('#links-inbox').append(link.htmlTemplate())
       if(!link.read) {
         $('#link-' + link.id).addClass('unread')
@@ -54,6 +70,7 @@ function postLink() {
     success: function(result) {
       var link = new Link(result)
       $('#links-inbox').append(link.htmlTemplate())
+      $('#link-' + link.id).addClass('unread')
     },
     error: function(result) {
       displayFormErrors(result.responseJSON)

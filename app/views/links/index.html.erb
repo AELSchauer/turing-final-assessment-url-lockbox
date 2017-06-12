@@ -2,13 +2,23 @@
 
 <%= form_for :link, html: { id: 'new-link-form' } do |f| %>
   <div id='form-errors'><ul></ul></div>
-  <%= f.label :url %>
-  <%= f.text_field :url, id: 'form-url' %>
-  <br>
   <%= f.label :title %>
   <%= f.text_field :title, id: 'form-title'  %>
   <br>
+  <%= f.label :url %>
+  <%= f.text_field :url, id: 'form-url' %>
+  <br>
   <button id='new-link-submit'>Add Link</button>
 <% end %>
+
+<br>
+
+<div>
+  Filter by text:
+  <%= text_field_tag 'filter-links'%>
+  <%= submit_tag 'Search Read Links', id: 'filter-read' %>
+  <%= submit_tag 'Search Unread Links', id: 'filter-unread' %>
+</div>
+
 
 <div id="links-inbox"></div>
