@@ -57,13 +57,9 @@ Once you have more than a few links, searching through all of them can become a 
 
 In the textbox next to 'Filter By Text', the app will will perform a case insensitive search on both the title and URL of all the links as you type.
 
-This is particularly helpful if you're looking for all the links from a single website. For example:
+This is particularly helpful if you're looking for all the links from a single website. For example: `wikipedia.org`
 
-`wikipedia.org'
-
-This is also useful if you're searching for all links that have a particular subject. For example:
-
-`robot`
+This is also useful if you're searching for all links that have a particular subject. For example: `robot`
 
 
 #### Filter by Status
@@ -104,6 +100,6 @@ To contribute to this application, follow these steps:
 
 8) Once you're ready to make a PR, run `rubocop` in your terminal and correct any style offenses.
 
-9) In your PR, include a high level summary of what changes you made and why. *If your PR requires any changes to the HotReads repo, please include a link to the HotReads PR in your URL Lockbox PR description and add the tag [HotReads Update Required] to the title.*
+9) In your PR, include a high level summary of what changes you made and why. If your PR requires any changes to the HotReads repo, please include a link to the HotReads PR in your URL Lockbox PR description and add the tag [HotReads Update Required] to the title.
 
 Thank you!
