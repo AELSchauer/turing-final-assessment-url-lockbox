@@ -174,17 +174,17 @@ Link.prototype.htmlTemplate = function() {
 
 Link.prototype.filterByText = function(filter) {
   if(this.title.toLowerCase().indexOf(filter) == -1 && this.url.toLowerCase().indexOf(filter) == -1) {
-    $(`#link-${this.id}`).hide()
+    $('#link-' + this.id}).hide()
   } else {
-    $(`#link-${this.id}`).show()
+    $('#link-' + this.id}).show()
   }
 }
 
 Link.prototype.filterByReadButton = function(filter) {
   if(this.read == filter) {
-    $(`#link-${this.id}`).show()
+    $('#link-' + this.id}).show()
   } else {
-    $(`#link-${this.id}`).hide()
+    $('#link-' + this.id}).hide()
   }
 }
 
